@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Persistent Student Accounts
+    match /students/{studentId} {
+      allow read, write: if true;
+    }
+    
+    // Persistent Authentication Sessions
+    match /sessions/{sessionId} {
+      allow read, write: if true;
+    }
+
+    // Trained Knowledge & University Regulations
+    match /trained_data/{dataId} {
+      allow read, write: if true;
+    }
+
+    // AI Chat History & Query Logs
+    match /chat_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // System connectivity and diagnostics
+    match /system/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "Registered student account and academic profile in the university database",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "collegeEmail": { "type": "string" },
+        "applicationNumber": { "type": "string" },
+        "rollNumber": { "type": "string" },
+        "cohort": { "type": "string" },
+        "yearOfStudy": { "type": "string" },
+        "department": { "type": "string" },
+        "phone": { "type": "string" },
+        "passwordHash": { "type": "string" },
+        "registeredAt": { "type": "string" },
+        "joinedYear": { "type": "number" },
+        "admissionStatus": { "type": "string" },
+        "intermediateMarks": { "type": "number" },
+        "concessionApplied": { "type": "string" },
+        "annualTuitionDue": { "type": "string" },
+        "hostelAllotted": { "type": "string" },
+        "documentsVerified": { "type": "boolean" },
+        "admissionQuota": { "type": "string" }
+      },
+      "required": ["id", "name", "passwordHash"]
+    },
+    "Session": {
+      "title": "Session",
+      "description": "Active student authentication session and token",
+      "type": "object",
+      "properties": {
+        "token": { "type": "string" },
+        "studentId": { "type": "string" },
+        "email": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "expiresAt": { "type": "string" }
+      },
+      "required": ["token", "studentId", "createdAt"]
+    },
+    "TrainedData": {
+      "title": "TrainedData",
+      "description": "Trained knowledge base, academic regulations, admission concession policies, and FAQs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "category", "title", "content"]
+    },
+    "ChatLog": {
+      "title": "ChatLog",
+      "description": "Persistent record of AI chat conversations, student queries, and responses",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "userQuery": { "type": "string" },
+        "aiResponse": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "source": { "type": "string" }
+      },
+      "required": ["id", "timestamp", "userQuery", "aiResponse"]
+    }
+  },
+  "firestore": {
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Persistent collection of registered student accounts"
+    },
+    "/sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/Session" },
+      "description": "Secure persistent student sessions"
+    },
+    "/trained_data/{dataId}": {
+      "schema": { "$ref": "#/entities/TrainedData" },
+      "description": "University trained AI knowledge base, regulations, and policies"
+    },
+    "/chat_logs/{logId}": {
+      "schema": { "$ref": "#/entities/ChatLog" },
+      "description": "All AI chat interaction history and query response logs"
+    }
+  }
+}
