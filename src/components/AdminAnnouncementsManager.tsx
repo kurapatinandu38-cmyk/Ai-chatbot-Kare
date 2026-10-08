@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState } from 'react';
 import { 
   Bell, 
@@ -138,7 +139,7 @@ Please verify your documents at the Admissions Office or upload your authentic m
 
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/announcements', {
+      const res = await apiFetch('/api/announcements', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -181,7 +182,7 @@ Please verify your documents at the Admissions Office or upload your authentic m
     if (!window.confirm(`Are you sure you want to retract and delete notice: "${annTitle}"?`)) return;
 
     try {
-      const res = await fetch(`/api/announcements/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/announcements/${id}`, { method: 'DELETE' });
       if (res.ok) {
         showNotification(`Announcement "${annTitle}" removed.`);
         onRefresh();
@@ -193,7 +194,7 @@ Please verify your documents at the Admissions Office or upload your authentic m
 
   const handleTogglePin = async (id: string) => {
     try {
-      const res = await fetch(`/api/announcements/${id}/pin`, { method: 'POST' });
+      const res = await apiFetch(`/api/announcements/${id}/pin`, { method: 'POST' });
       if (res.ok) {
         const data = await res.json();
         showNotification(data.message || 'Updated pin status.');

@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -125,7 +126,7 @@ export const FacultyRegisterModal: React.FC<FacultyRegisterModalProps> = ({
 
     setIsLoading(true);
     try {
-      const res = await fetch('/api/admin/register', {
+      const res = await apiFetch('/api/admin/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

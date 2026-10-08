@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState } from 'react';
 import { 
   ShieldCheck, 
@@ -64,7 +65,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
 
     try {
       setLoading(true);
-      const res = await fetch('/api/admin/login', {
+      const res = await apiFetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

@@ -1,3 +1,4 @@
+import { apiFetch } from './lib/api';
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { ChatInterface } from './components/ChatInterface';
@@ -113,7 +114,7 @@ export default function App() {
         const token = localStorage.getItem('kare_student_token');
         if (!token) return;
 
-        const res = await fetch('/api/auth/me', {
+        const res = await apiFetch('/api/auth/me', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -234,7 +235,7 @@ export default function App() {
     const token = localStorage.getItem('kare_student_token');
     if (token) {
       try {
-        await fetch('/api/auth/logout', {
+        await apiFetch('/api/auth/logout', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -272,7 +273,7 @@ export default function App() {
   const fetchFaqs = async (retries = 3, delayMs = 800) => {
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {
-        const res = await fetch('/api/faqs', {
+        const res = await apiFetch('/api/faqs', {
           headers: { Accept: 'application/json' }
         });
         if (res.ok) {
@@ -299,7 +300,7 @@ export default function App() {
 
   const handleAddFaq = async (newFaqData: Omit<FAQItem, 'id' | 'viewsCount' | 'helpfulCount' | 'updatedAt'>) => {
     try {
-      const res = await fetch('/api/faqs', {
+      const res = await apiFetch('/api/faqs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newFaqData)
@@ -314,7 +315,7 @@ export default function App() {
 
   const handleDeleteFaq = async (id: string) => {
     try {
-      const res = await fetch(`/api/faqs/${id}`, {
+      const res = await apiFetch(`/api/faqs/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {

@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useEffect } from 'react';
 import { 
   Building2, 
@@ -90,7 +91,7 @@ export const UniversityInfo: React.FC = () => {
   const [info, setInfo] = useState<any>(DEFAULT_UNIVERSITY_INFO);
 
   useEffect(() => {
-    fetch('/api/university/info')
+    apiFetch('/api/university/info')
       .then(res => {
         if (res.ok) return res.json();
         return null;

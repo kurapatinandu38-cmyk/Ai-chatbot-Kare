@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -134,7 +135,7 @@ export const PortalHome: React.FC<PortalHomeProps> = ({
 
     setIsStudentSubmitting(true);
     try {
-      const res = await fetch('/api/auth/student-login', {
+      const res = await apiFetch('/api/auth/student-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -175,7 +176,7 @@ export const PortalHome: React.FC<PortalHomeProps> = ({
 
     setIsFacultySubmitting(true);
     try {
-      const res = await fetch('/api/admin/login', {
+      const res = await apiFetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier: cleanId, password: cleanPass })
@@ -212,7 +213,7 @@ export const PortalHome: React.FC<PortalHomeProps> = ({
 
     setIsEmailSending(true);
     try {
-      const res = await fetch('/api/auth/forgot-password', {
+      const res = await apiFetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -266,7 +267,7 @@ export const PortalHome: React.FC<PortalHomeProps> = ({
 
     setIsOtpLoading(true);
     try {
-      const res = await fetch('/api/auth/student/otp-request', {
+      const res = await apiFetch('/api/auth/student/otp-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -322,7 +323,7 @@ export const PortalHome: React.FC<PortalHomeProps> = ({
 
     setIsOtpLoading(true);
     try {
-      const res = await fetch('/api/auth/student/otp-verify-reset', {
+      const res = await apiFetch('/api/auth/student/otp-verify-reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

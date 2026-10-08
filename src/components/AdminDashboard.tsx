@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useEffect } from 'react';
 import { 
   BarChart3, 
@@ -201,7 +202,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const fetchStudents = async () => {
     try {
-      const res = await fetch('/api/auth/students');
+      const res = await apiFetch('/api/auth/students');
       if (res.ok) {
         const data = await res.json();
         setStudents(data.students || []);
@@ -210,7 +211,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         }
       }
       try {
-        const dRes = await fetch('/api/admin/dislikes');
+        const dRes = await apiFetch('/api/admin/dislikes');
         if (dRes.ok) {
           const dData = await dRes.json();
           if (dData.dislikes && Array.isArray(dData.dislikes)) {
@@ -227,7 +228,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const handleResolveDislike = async (feedbackId: string) => {
     try {
-      const res = await fetch('/api/admin/dislikes/resolve', {
+      const res = await apiFetch('/api/admin/dislikes/resolve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ feedbackId })
@@ -255,7 +256,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch('/api/analytics');
+      const res = await apiFetch('/api/analytics');
       if (res.ok) {
         const data = await res.json();
         setAnalytics(data);
@@ -267,7 +268,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const fetchAdmissionsAndPlacements = async () => {
     try {
-      const res = await fetch('/api/admissions/all');
+      const res = await apiFetch('/api/admissions/all');
       if (res.ok) {
         const data = await res.json();
         setFeeStructures(data.feeStructures || []);
@@ -281,7 +282,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   const fetchAnnouncements = async () => {
     try {
-      const res = await fetch('/api/announcements');
+      const res = await apiFetch('/api/announcements');
       if (res.ok) {
         const data = await res.json();
         setAnnouncements(data.announcements || []);
@@ -359,7 +360,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       setStuSubmitting(true);
       const marksNum = stuIntermediateMarks ? parseFloat(stuIntermediateMarks) : undefined;
       const cleanEmail = stuCollegeEmail.trim().toLowerCase();
-      const res = await fetch(`/api/students/${editingStudent.id}/admission`, {
+      const res = await apiFetch(`/api/students/${editingStudent.id}/admission`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -391,7 +392,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     studentName: string
   ) => {
     try {
-      const res = await fetch('/api/students/admission-action', {
+      const res = await apiFetch('/api/students/admission-action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ studentId, action })
@@ -474,7 +475,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     try {
       if (editingFeeItem) {
         // Edit existing
-        const res = await fetch(`/api/admissions/fee-structure/${editingFeeItem.id}`, {
+        const res = await apiFetch(`/api/admissions/fee-structure/${editingFeeItem.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -486,7 +487,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         }
       } else {
         // Add new
-        const res = await fetch('/api/admissions/fee-structure', {
+        const res = await apiFetch('/api/admissions/fee-structure', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -506,7 +507,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleDeleteFeeItem = async (id: string, program: string) => {
     if (!confirm(`Are you sure you want to delete the fee structure for ${program}?`)) return;
     try {
-      const res = await fetch(`/api/admissions/fee-structure/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/admissions/fee-structure/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setFeeStructures(prev => prev.filter(f => f.id !== id));
         showNotification(`Removed fee structure for ${program}.`);
@@ -545,7 +546,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     };
 
     try {
-      const res = await fetch('/api/admissions/info', {
+      const res = await apiFetch('/api/admissions/info', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -628,7 +629,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
     try {
       if (editingPlacement) {
-        const res = await fetch(`/api/placements/${editingPlacement.id}`, {
+        const res = await apiFetch(`/api/placements/${editingPlacement.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -639,7 +640,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           showNotification(`Placement for "${payload.companyName}" updated.`);
         }
       } else {
-        const res = await fetch('/api/placements', {
+        const res = await apiFetch('/api/placements', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -659,7 +660,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const handleDeletePlacement = async (id: string, company: string) => {
     if (!confirm(`Are you sure you want to remove placement record for ${company}?`)) return;
     try {
-      const res = await fetch(`/api/placements/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/placements/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setPlacements(prev => prev.filter(p => p.id !== id));
         showNotification(`Placement record for ${company} removed.`);
@@ -690,7 +691,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     }
     try {
       setGateLoading(true);
-      const res = await fetch('/api/admin/login', {
+      const res = await apiFetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier: gateIdentifier.trim(), password: gatePassword.trim() })

@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useEffect } from 'react';
 import { 
   GraduationCap, 
@@ -63,7 +64,7 @@ export const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
 
     try {
       setStudentLoading(true);
-      const res = await fetch('/api/auth/login', {
+      const res = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -129,7 +130,7 @@ export const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
 
     try {
       setFacultyLoading(true);
-      const res = await fetch('/api/admin/login', {
+      const res = await apiFetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

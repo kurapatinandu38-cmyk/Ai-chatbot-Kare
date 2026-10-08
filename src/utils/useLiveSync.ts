@@ -1,3 +1,4 @@
+import { apiFetch, apiUrl } from '../lib/api';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   AdmissionsInfo, 
@@ -37,7 +38,7 @@ async function safeFetchJson<T>(url: string, retries = 2, delayMs = 600): Promis
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 6000);
 
-      const res = await fetch(url, {
+      const res = await apiFetch(url, {
         signal: controller.signal,
         headers: { Accept: 'application/json' }
       });
@@ -136,7 +137,7 @@ export function useLiveSync() {
 
   const submitEnquiry = useCallback(async (payload: EnquirySubmissionPayload): Promise<{ success: boolean; message: string; enquiry?: EnquiryItem }> => {
     try {
-      const res = await fetch('/api/enquiries', {
+      const res = await apiFetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -186,7 +187,7 @@ export function useLiveSync() {
     assignedCounselor?: string
   ): Promise<boolean> => {
     try {
-      const res = await fetch(`/api/enquiries/${id}`, {
+      const res = await apiFetch(`/api/enquiries/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, notes, assignedCounselor })
@@ -214,7 +215,7 @@ export function useLiveSync() {
 
   const deleteEnquiry = useCallback(async (id: string): Promise<boolean> => {
     try {
-      const res = await fetch(`/api/enquiries/${id}`, { method: 'DELETE' });
+      const res = await apiFetch(`/api/enquiries/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setState(prev => ({
           ...prev,
@@ -256,7 +257,7 @@ export function useLiveSync() {
       if (!isSubscribed) return;
 
       try {
-        eventSource = new EventSource('/api/live/stream');
+        eventSource = new EventSource(apiUrl('/api/live/stream'));
 
         eventSource.onopen = () => {
           if (!isSubscribed) return;

@@ -28,3 +28,12 @@ Add `GEMINI_API_KEY` in the Render service's environment settings. Set `APP_URL`
 the deployed service URL if password-reset emails are configured. Configure SMTP
 variables only if the app needs to send email. Never commit `.env` files or local
 account data; those are excluded by `.gitignore`.
+
+## Deploy the frontend on Vercel and the API on Render
+
+Deploy this repository to Render as a **Web Service** using the build and start
+commands above. Then, in the Vercel project's environment variables, set
+`VITE_API_BASE_URL` to the Render service origin (for example,
+`https://your-backend.onrender.com`) for each environment you deploy. Redeploy the
+Vercel project after adding the variable. The API origin must not include a path
+such as `/api`.

@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -278,8 +279,8 @@ export const AdmissionsView: React.FC<AdmissionsViewProps> = ({
         try {
           setLoading(true);
           const [admResult, stuResult] = await Promise.allSettled([
-            fetch('/api/admissions/all').then(r => r.ok ? r.json() : null),
-            fetch('/api/auth/students').then(r => r.ok ? r.json() : null)
+            apiFetch('/api/admissions/all').then(r => r.ok ? r.json() : null),
+            apiFetch('/api/auth/students').then(r => r.ok ? r.json() : null)
           ]);
 
           if (admResult.status === 'fulfilled' && admResult.value) {
@@ -407,7 +408,7 @@ export const AdmissionsView: React.FC<AdmissionsViewProps> = ({
     try {
       setIsClaiming(true);
       setClaimMessage(null);
-      const res = await fetch('/api/students/claim-concession', {
+      const res = await apiFetch('/api/students/claim-concession', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -442,7 +443,7 @@ export const AdmissionsView: React.FC<AdmissionsViewProps> = ({
       setLookupError(null);
       setLookupResult(null);
 
-      const res = await fetch(`/api/admissions/student-status/${encodeURIComponent(q)}`);
+      const res = await apiFetch(`/api/admissions/student-status/${encodeURIComponent(q)}`);
       const data = await res.json();
       if (res.ok && data.student) {
         setLookupResult(data.student);
@@ -1396,7 +1397,7 @@ export const AdmissionsView: React.FC<AdmissionsViewProps> = ({
         defaultProgram={enquiryProgramPreselect}
         onSubmitEnquiry={onSubmitEnquiry || (async (payload) => {
           try {
-            const res = await fetch('/api/enquiries', {
+            const res = await apiFetch('/api/enquiries', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

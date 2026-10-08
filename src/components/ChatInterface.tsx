@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Send, 
@@ -556,7 +557,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await apiFetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -637,7 +638,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       }));
 
       try {
-        await fetch('/api/feedback', {
+        await apiFetch('/api/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ helpful: true, messageId: msgId })
@@ -668,7 +669,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }));
 
     try {
-      await fetch('/api/feedback', {
+      await apiFetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

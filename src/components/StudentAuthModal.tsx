@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState, useEffect } from 'react';
 import { 
   GraduationCap, 
@@ -53,7 +54,7 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
 
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/auth/student-login', {
+      const res = await apiFetch('/api/auth/student-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

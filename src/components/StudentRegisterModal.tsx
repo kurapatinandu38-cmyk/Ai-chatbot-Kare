@@ -1,3 +1,4 @@
+import { apiFetch } from '../lib/api';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -151,7 +152,7 @@ export const StudentRegisterModal: React.FC<StudentRegisterModalProps> = ({
 
       let res: Response;
       try {
-        res = await fetch('/api/auth/register', {
+        res = await apiFetch('/api/auth/register', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -163,7 +164,7 @@ export const StudentRegisterModal: React.FC<StudentRegisterModalProps> = ({
         console.warn('Initial registration request failed, retrying once...', fetchErr);
         try {
           await new Promise(r => setTimeout(r, 400));
-          res = await fetch('/api/auth/register', {
+          res = await apiFetch('/api/auth/register', {
             method: 'POST',
             headers: { 
               'Content-Type': 'application/json',
