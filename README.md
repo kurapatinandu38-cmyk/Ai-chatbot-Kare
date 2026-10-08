@@ -29,5 +29,7 @@ configure SMTP variables only when outbound email is needed. Redeploy after
 changing environment variables.
 
 Vercel functions have ephemeral local storage. Keep account and application data
-in a persistent database such as Firestore; never commit `.env` files or local
-account data, which are excluded by `.gitignore`.
+in the configured Firestore database; never commit `.env` files or local account
+data, which are excluded by `.gitignore`. Accounts that existed only in local
+`data/` files are not deployed. Create or register an account through the site
+before signing in unless that account is already present in Firestore.

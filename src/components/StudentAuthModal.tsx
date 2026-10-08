@@ -67,10 +67,15 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
         })
       });
 
-      const data = await res.json();
+      let data: { success?: boolean; error?: string; student?: StudentUser; token?: string };
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error(`Login service returned an invalid response (HTTP ${res.status}). Check the Vercel deployment.`);
+      }
 
       if (!res.ok || !data.success || !data.student) {
-        setLoginError(data.error || 'Invalid password');
+        setLoginError(data.error || `Login failed (HTTP ${res.status}).`);
         setIsSubmitting(false);
         return;
       }
@@ -79,7 +84,9 @@ export const StudentAuthModal: React.FC<StudentAuthModalProps> = ({
       onClose();
     } catch (err) {
       console.error('Login error:', err);
-      setLoginError('Unable to connect. Please try again.');
+      setLoginError(err instanceof Error && err.message.startsWith('Login service')
+        ? err.message
+        : 'Unable to reach the login service. Check the Vercel deployment and try again.');
     } finally {
       setIsSubmitting(false);
     }
