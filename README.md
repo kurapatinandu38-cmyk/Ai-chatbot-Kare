@@ -16,24 +16,18 @@ This contains everything you need to run your app locally.
 3. Run the app:
    `npm run dev`
 
-## Deploy to Render
+## Deploy frontend and API together on Vercel
 
-Create a **Web Service** from this GitHub repository with:
+Import this GitHub repository as a Vercel project. The included `vercel.json`
+builds the Vite frontend into `dist`, while `api/[...path].ts` exposes the Express
+API as a Vercel function under `/api/*`.
 
-- **Build command:** `npm install && npm run build`
-- **Start command:** `npm start`
-- **Runtime:** Node
+Add `GEMINI_API_KEY` in the Vercel project's environment variables. Leave
+`VITE_API_BASE_URL` unset when both frontend and API are on this project. Set
+`APP_URL` to the deployed Vercel URL if password-reset emails are configured, and
+configure SMTP variables only when outbound email is needed. Redeploy after
+changing environment variables.
 
-Add `GEMINI_API_KEY` in the Render service's environment settings. Set `APP_URL` to
-the deployed service URL if password-reset emails are configured. Configure SMTP
-variables only if the app needs to send email. Never commit `.env` files or local
-account data; those are excluded by `.gitignore`.
-
-## Deploy the frontend on Vercel and the API on Render
-
-Deploy this repository to Render as a **Web Service** using the build and start
-commands above. Then, in the Vercel project's environment variables, set
-`VITE_API_BASE_URL` to the Render service origin (for example,
-`https://your-backend.onrender.com`) for each environment you deploy. Redeploy the
-Vercel project after adding the variable. The API origin must not include a path
-such as `/api`.
+Vercel functions have ephemeral local storage. Keep account and application data
+in a persistent database such as Firestore; never commit `.env` files or local
+account data, which are excluded by `.gitignore`.

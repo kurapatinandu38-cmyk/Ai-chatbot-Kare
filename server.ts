@@ -53,6 +53,17 @@ app.use((req, res, next) => {
   next();
 });
 
+let persistentDbSync: Promise<void> | undefined;
+app.use('/api', (req, res, next) => {
+  if (process.env.VERCEL !== '1') {
+    next();
+    return;
+  }
+
+  persistentDbSync ??= syncWithPersistentDatabase();
+  persistentDbSync.then(() => next()).catch(next);
+});
+
 // In-memory Stores
 let faqDatabase: FAQItem[] = [...INITIAL_FAQS];
 let announcementsDatabase: AnnouncementItem[] = [...INITIAL_ANNOUNCEMENTS];
@@ -4074,6 +4085,10 @@ process.on('unhandledRejection', (reason) => {
   console.error('[Process Error] Unhandled Rejection:', reason);
 });
 
-startServer().catch((err) => {
-  console.error('Fatal startup error in startServer:', err);
-});
+if (process.env.VERCEL !== '1') {
+  startServer().catch((err) => {
+    console.error('Fatal startup error in startServer:', err);
+  });
+}
+
+export { app };
